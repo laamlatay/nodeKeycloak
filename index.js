@@ -19,7 +19,7 @@ app.get('/home', keycloak.protect(), (req, res) => {
 
     res.send('Welcome to Home');
 });
-app.get( '/special', keycloak.protect('special'),() => {
+app.get( '/special', keycloak.protect('special'),(req,res) => {
     console.log("special accessed")
     res.send("User with special role authorized")
 });
@@ -27,7 +27,7 @@ app.get( '/special', keycloak.protect('special'),() => {
 app.use('/logout', (req, res, next) => {
     req.session.destroy();
     res.clearCookie('connect.sid', { path: '/' });
-    res.redirect("/home"); // optional
+    return res.redirect("/home"); // optional
 });
 var server = app.listen(8081, function () {
     var host = server.address().address
